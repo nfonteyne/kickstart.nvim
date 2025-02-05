@@ -188,6 +188,9 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+
+-- open Neotree with space + n
+vim.keymap.set('n', '<leader>n', ':Neotree toggle<CR>')
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -341,6 +344,7 @@ require('lazy').setup({
       'hrsh7th/cmp-nvim-lsp',
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
+      'rafamadriz/friendly-snippets',
     },
     config = function()
       local has_words_before = function()
@@ -358,6 +362,7 @@ require('lazy').setup({
             luasnip.lsp_expand(args.body)
           end,
         },
+        require("luasnip.loaders.from_vscode").lazy_load(),
         completion = {
           autocomplete = false,
         },
@@ -535,9 +540,30 @@ require('lazy').setup({
       require('mason').setup()
       local mason_lspconfig = require 'mason-lspconfig'
       mason_lspconfig.setup {
-        ensure_installed = { 'pyright' },
+        ensure_installed = { 'pyright', 'html', 'cssls', 'ts_ls'},
       }
       require('lspconfig').pyright.setup {
+        capabilities = capabilities,
+      }
+      require('lspconfig').html.setup {
+        capabilities = capabilities,
+        settings = {
+          html = {
+            validate = true,
+            format = {
+              enable = true
+            },
+            hover = true,
+            diagnostics = {
+              enable = true
+            }
+          }
+        }
+      } 
+      require('lspconfig').cssls.setup {
+        capabilities = capabilities,
+      }
+      require('lspconfig').ts_ls.setup {
         capabilities = capabilities,
       }
     end,
