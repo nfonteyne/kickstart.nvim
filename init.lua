@@ -90,7 +90,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -187,7 +187,6 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
 
 -- open Neotree with space + n
 vim.keymap.set('n', '<leader>n', ':Neotree toggle<CR>')
@@ -339,6 +338,20 @@ require('lazy').setup({
     },
   },
   {
+    'm4xshen/autoclose.nvim',
+    event = 'InsertEnter',
+    config = function()
+      require('autoclose').setup()
+    end,
+  },
+  -- add this to your lua/plugins.lua, lua/plugins/init.lua,  or the file you keep your other plugins:
+  {
+    'numToStr/Comment.nvim',
+    opts = {
+      -- add any options here
+    },
+  },
+  {
     'hrsh7th/nvim-cmp',
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
@@ -362,7 +375,7 @@ require('lazy').setup({
             luasnip.lsp_expand(args.body)
           end,
         },
-        require("luasnip.loaders.from_vscode").lazy_load(),
+        require('luasnip.loaders.from_vscode').lazy_load(),
         completion = {
           autocomplete = false,
         },
@@ -464,6 +477,20 @@ require('lazy').setup({
         --   },
         -- },
         -- pickers = {}
+        defaults = {
+          -- Add this "mappings" section inside "defaults":
+          mappings = {
+            i = {
+              -- Your existing mappings (if any) go here
+              -- Add this new <C-y> mapping for yanking paths:
+              ['<C-y>'] = function(prompt_bufnr)
+                local entry = require('telescope.actions.state').get_selected_entry()
+                vim.fn.setreg('+', entry.value) -- Copy to clipboard register
+                require('telescope.actions').close(prompt_bufnr)
+              end,
+            },
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -540,7 +567,7 @@ require('lazy').setup({
       require('mason').setup()
       local mason_lspconfig = require 'mason-lspconfig'
       mason_lspconfig.setup {
-        ensure_installed = { 'pyright', 'html', 'cssls', 'ts_ls'},
+        ensure_installed = { 'pyright', 'html', 'cssls', 'ts_ls' },
       }
       require('lspconfig').pyright.setup {
         capabilities = capabilities,
@@ -551,15 +578,15 @@ require('lazy').setup({
           html = {
             validate = true,
             format = {
-              enable = true
+              enable = true,
             },
             hover = true,
             diagnostics = {
-              enable = true
-            }
-          }
-        }
-      } 
+              enable = true,
+            },
+          },
+        },
+      }
       require('lspconfig').cssls.setup {
         capabilities = capabilities,
       }
