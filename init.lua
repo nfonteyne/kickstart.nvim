@@ -165,6 +165,7 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
+vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -327,6 +328,27 @@ require('lazy').setup({
     },
   },
   -- Note personnally added plugins
+  {
+    "theprimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("harpoon"):setup()
+    end,
+    keys = {
+      { "<leader>a", function() require("harpoon"):list():add() end, desc = "harpoon file", },
+      { "<leader>e", function() local harpoon = require("harpoon") harpoon.ui:toggle_quick_menu(harpoon:list()) end, desc = "harpoon quick menu", },
+
+      { "<leader>&", function() require("harpoon"):list():select(1) end, desc = "harpoon to file 1", },
+      { "<leader>é", function() require("harpoon"):list():select(2) end, desc = "harpoon to file 2", },
+      { "<leader>", function() require("harpoon"):list():select(3) end, desc = "harpoon to file 3", },
+      { "<leader>'", function() require("harpoon"):list():select(4) end, desc = "harpoon to file 4", },
+      { "<leader>(", function() require("harpoon"):list():select(5) end, desc = "harpoon to file 5", },
+      
+      { "C-S-P", function() require("harpoon"):list():prev() end, desc = "harpoon to previous file", },
+      { "C-S-N", function() require("harpoon"):list():next() end, desc = "harpoon to next file", },
+    },
+  },
   {
     'nvim-neo-tree/neo-tree.nvim',
     branch = 'v3.x',
