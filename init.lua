@@ -339,10 +339,10 @@ require('lazy').setup({
       { "<leader>a", function() require("harpoon"):list():add() end, desc = "harpoon file", },
       { "<C-e>", function() local harpoon = require("harpoon") harpoon.ui:toggle_quick_menu(harpoon:list()) end, desc = "harpoon quick menu", },
 
-      { "<C-y>", function() require("harpoon"):list():select(1) end, desc = "harpoon to file 1", },
-      { "<C-u>", function() require("harpoon"):list():select(2) end, desc = "harpoon to file 2", },
-      { "<C-i>", function() require("harpoon"):list():select(3) end, desc = "harpoon to file 3", },
-      { "<C-o>", function() require("harpoon"):list():select(4) end, desc = "harpoon to file 4", },
+      { "<leader>y", function() require("harpoon"):list():select(1) end, desc = "harpoon to file 1", },
+      { "<leader>u", function() require("harpoon"):list():select(2) end, desc = "harpoon to file 2", },
+      { "<leader>i", function() require("harpoon"):list():select(3) end, desc = "harpoon to file 3", },
+      { "<leader>o", function() require("harpoon"):list():select(4) end, desc = "harpoon to file 4", },
       
       { "<C-S-P>", function() require("harpoon"):list():prev() end, desc = "harpoon to previous file", },
       { "<C-S-N>", function() require("harpoon"):list():next() end, desc = "harpoon to next file", },
@@ -655,21 +655,43 @@ require('lazy').setup({
     },
   },
   {
-    'sainnhe/sonokai', -- Sonokai repo name
-    priority = 1000, -- Ensure it loads first
-    init = function()
-      -- Configure Sonokai theme variant (optional):
-      vim.g.sonokai_style = 'default' -- Options: 'default', 'atlantis', 'andromeda', 'shusia', 'maia', 'espresso'
-      vim.g.sonokai_transparent_background = 0 -- Set to 1 for transparent background
-      vim.g.sonokai_enable_italic = 1 -- Enable italics (if your terminal supports it)
-
-      -- Load the colorscheme
-      vim.cmd.colorscheme 'sonokai'
-
-      -- Optional: Customize highlights (e.g., remove italic comments):
-      vim.cmd.hi 'Comment gui=none' -- Replace 'none' with 'italic' if preferred
+    'ribru17/bamboo.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require('bamboo').setup {
+        -- optional configuration here
+      }
+      require('bamboo').load()
     end,
   },
+  -- {
+  --   "catppuccin/nvim",
+  --   name = "catppuccin",
+  --   priority = 1000,
+  --   config = function()
+  --     require("catppuccin").setup()
+  --
+  --     -- setup must be called before loading
+  --     vim.cmd.colorscheme "catppuccin"
+  --   end,
+  -- },
+  -- {
+  --   'sainnhe/sonokai', -- Sonokai repo name
+  --   priority = 1000, -- Ensure it loads first
+  --   init = function()
+  --     -- Configure Sonokai theme variant (optional):
+  --     vim.g.sonokai_style = 'default' -- Options: 'default', 'atlantis', 'andromeda', 'shusia', 'maia', 'espresso'
+  --     vim.g.sonokai_transparent_background = 0 -- Set to 1 for transparent background
+  --     vim.g.sonokai_enable_italic = 1 -- Enable italics (if your terminal supports it)
+  --
+  --     -- Load the colorscheme
+  --     vim.cmd.colorscheme 'sonokai'
+  --
+  --     -- Optional: Customize highlights (e.g., remove italic comments):
+  --     vim.cmd.hi 'Comment gui=none' -- Replace 'none' with 'italic' if preferred
+  --   end,
+  -- },
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
@@ -709,6 +731,12 @@ require('lazy').setup({
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
+    end,
+  },
+  {
+    "andymass/vim-matchup",
+    setup = function()
+      vim.g.matchup_matchparen_offscreen = { method = "popup" }
     end,
   },
   {
