@@ -337,16 +337,15 @@ require('lazy').setup({
     end,
     keys = {
       { "<leader>a", function() require("harpoon"):list():add() end, desc = "harpoon file", },
-      { "<leader>e", function() local harpoon = require("harpoon") harpoon.ui:toggle_quick_menu(harpoon:list()) end, desc = "harpoon quick menu", },
+      { "<C-e>", function() local harpoon = require("harpoon") harpoon.ui:toggle_quick_menu(harpoon:list()) end, desc = "harpoon quick menu", },
 
-      { "<leader>&", function() require("harpoon"):list():select(1) end, desc = "harpoon to file 1", },
-      { "<leader>é", function() require("harpoon"):list():select(2) end, desc = "harpoon to file 2", },
-      { "<leader>", function() require("harpoon"):list():select(3) end, desc = "harpoon to file 3", },
-      { "<leader>'", function() require("harpoon"):list():select(4) end, desc = "harpoon to file 4", },
-      { "<leader>(", function() require("harpoon"):list():select(5) end, desc = "harpoon to file 5", },
+      { "<C-y>", function() require("harpoon"):list():select(1) end, desc = "harpoon to file 1", },
+      { "<C-u>", function() require("harpoon"):list():select(2) end, desc = "harpoon to file 2", },
+      { "<C-i>", function() require("harpoon"):list():select(3) end, desc = "harpoon to file 3", },
+      { "<C-o>", function() require("harpoon"):list():select(4) end, desc = "harpoon to file 4", },
       
-      { "C-S-P", function() require("harpoon"):list():prev() end, desc = "harpoon to previous file", },
-      { "C-S-N", function() require("harpoon"):list():next() end, desc = "harpoon to next file", },
+      { "<C-S-P>", function() require("harpoon"):list():prev() end, desc = "harpoon to previous file", },
+      { "<C-S-N>", function() require("harpoon"):list():next() end, desc = "harpoon to next file", },
     },
   },
   {
@@ -432,10 +431,6 @@ require('lazy').setup({
       }
     end,
   },
-  { 'akinsho/toggleterm.nvim', event = 'VeryLazy', version = '*', opts = {
-    size = 10,
-    open_mapping = '<c-s>',
-  } },
   -- NOTE: Plugins can specify dependencies.
   --
   -- The dependencies are proper plugin specifications as well - anything
